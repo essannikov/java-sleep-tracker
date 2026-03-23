@@ -9,12 +9,12 @@ import java.util.function.Function;
 public class FunctionMaxDurSession implements Function<List<SleepingSession>, Long> {
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
-        if (sleepingSessions == null || sleepingSessions.isEmpty()){
+        if (sleepingSessions == null || sleepingSessions.isEmpty()) {
             return (long) 0;
         }
 
-        return sleepingSessions.stream().
-                max(Comparator.comparing(SleepingSession::getDuration)).
-                get().getDuration().toMinutes();
+        return sleepingSessions.stream()
+                .max(Comparator.comparing(SleepingSession::getDuration))
+                .get().getDuration().toMinutes();
     }
 }

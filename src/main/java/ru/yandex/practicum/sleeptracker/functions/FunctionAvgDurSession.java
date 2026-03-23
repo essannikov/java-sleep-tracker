@@ -8,12 +8,12 @@ import java.util.function.Function;
 public class FunctionAvgDurSession implements Function<List<SleepingSession>, Long> {
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
-        if (sleepingSessions == null || sleepingSessions.isEmpty()){
+        if (sleepingSessions == null || sleepingSessions.isEmpty()) {
             return (long) 0;
         }
 
-        return (long) sleepingSessions.stream().
-                mapToLong(sleepingSession -> sleepingSession.getDuration().toMinutes()).
-                average().orElse(0);
+        return (long) sleepingSessions.stream()
+                .mapToLong(sleepingSession -> sleepingSession.getDuration().toMinutes())
+                .average().orElse(0);
     }
 }

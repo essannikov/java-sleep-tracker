@@ -17,25 +17,25 @@ public class FunctionUserClassification implements Function<List<SleepingSession
 
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
-        if (sleepingSessions == null || sleepingSessions.isEmpty()){
+        if (sleepingSessions == null || sleepingSessions.isEmpty()) {
             return (long) UserClassification.DOVE.getNumber();
         }
 
-        long countNightOwl = sleepingSessions.stream().
-                filter(sleepingSession -> { return
+        long countNightOwl = sleepingSessions.stream()
+                .filter(sleepingSession -> { return
                         (sleepingSession.getStart().isAfter(
                                 LocalDateTime.of(sleepingSession.getEnd().minusDays(1).toLocalDate(), OWL_START)) &&
                                 sleepingSession.getEnd().isAfter(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), OWL_END)));}).
-                count();
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), OWL_END)));})
+                .count();
 
-        long countNightLark = sleepingSessions.stream().
-                filter(sleepingSession -> { return
+        long countNightLark = sleepingSessions.stream()
+                .filter(sleepingSession -> { return
                         (sleepingSession.getStart().isBefore(
                                 LocalDateTime.of(sleepingSession.getEnd().minusDays(1).toLocalDate(), LARK_START)) &&
                                 sleepingSession.getEnd().isBefore(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), LARK_END)));}).
-                count();
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), LARK_END)));})
+                .count();
 
         if (countNightOwl > countNightLark) {
             return (long) UserClassification.OWL.getNumber();

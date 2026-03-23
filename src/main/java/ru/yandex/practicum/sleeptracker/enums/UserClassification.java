@@ -28,8 +28,8 @@ public enum UserClassification {
     }
 
     public static Optional<UserClassification> getByCode(int number) {
-        return Arrays.stream(UserClassification.values()).
-                filter(userClassification -> userClassification.getNumber() == number).
-                findFirst();
+        return Arrays.stream(UserClassification.values())
+                .filter(userClassification -> userClassification.getNumber() == number)
+                .findFirst();
     }
 }

@@ -25,11 +25,11 @@ public class SleepTrackerApp {
         }
 
         List<Function<List<SleepingSession>, Long>> functionsList = getFunctionList();
-        List<String> resultFunc = functionsList.stream().
-                map(listLongFunction ->
-                        new SleepAnalysisResult(listLongFunction).apply(sleepingSessionList)).
-                peek(System.out::println).
-                toList();
+        List<String> resultFunc = functionsList.stream()
+                .map(listLongFunction ->
+                        new SleepAnalysisResult(listLongFunction).apply(sleepingSessionList))
+                .peek(System.out::println)
+                .toList();
     }
 
     protected static List<Function<List<SleepingSession>, Long>> getFunctionList() {

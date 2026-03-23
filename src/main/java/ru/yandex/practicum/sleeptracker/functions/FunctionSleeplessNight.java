@@ -16,7 +16,7 @@ public class FunctionSleeplessNight implements Function<List<SleepingSession>, L
 
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
-        if (sleepingSessions == null || sleepingSessions.isEmpty()){
+        if (sleepingSessions == null || sleepingSessions.isEmpty()) {
             return (long) 0;
         }
 
@@ -31,13 +31,13 @@ public class FunctionSleeplessNight implements Function<List<SleepingSession>, L
         int countAllNight = Period.between(sleepingSessions.getFirst().getStart().toLocalDate().plusDays(nextNight),
                 sleepingSessions.getLast().getEnd().toLocalDate().plusDays(1)).getDays();
 
-        long countSleepNight = sleepingSessions.stream().
-                filter(sleepingSession -> { return
+        long countSleepNight = sleepingSessions.stream()
+                .filter(sleepingSession -> { return
                         (sleepingSession.getStart().isBefore(
                                 LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), NIGHT_END)) &&
                                 sleepingSession.getEnd().isAfter(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(),NIGHT_START)));}).
-                count();
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(),NIGHT_START)));})
+                .count();
 
         return countAllNight - countSleepNight;
     }
