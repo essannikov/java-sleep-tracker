@@ -13,7 +13,7 @@ public class SleepAnalysisResult {
         this.function = function;
     }
 
-    public String apply(List<SleepingSession> sleepingSessionList){
+    public String apply(List<SleepingSession> sleepingSessionList) {
         String result;
 
         Long value = function.apply(sleepingSessionList);
