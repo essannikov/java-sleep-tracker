@@ -10,10 +10,10 @@ import java.util.function.Function;
 
 public class FunctionUserClassification implements Function<List<SleepingSession>, Long> {
 
-    private final LocalTime OWL_START = LocalTime.of(23,0);
-    private final LocalTime OWL_END = LocalTime.of(9,0);
-    private final LocalTime LARK_START = LocalTime.of(22,0);
-    private final LocalTime LARK_END = LocalTime.of(7,0);
+    private final LocalTime owlStart = LocalTime.of(23,0);
+    private final LocalTime owlEnd = LocalTime.of(9,0);
+    private final LocalTime larkStart = LocalTime.of(22,0);
+    private final LocalTime larkEnd = LocalTime.of(7,0);
 
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
@@ -22,19 +22,19 @@ public class FunctionUserClassification implements Function<List<SleepingSession
         }
 
         long countNightOwl = sleepingSessions.stream()
-                .filter(sleepingSession -> { return
-                        (sleepingSession.getStart().isAfter(
-                                LocalDateTime.of(sleepingSession.getEnd().minusDays(1).toLocalDate(), OWL_START)) &&
+                .filter(sleepingSession -> {
+                    return (sleepingSession.getStart().isAfter(
+                                LocalDateTime.of(sleepingSession.getEnd().minusDays(1).toLocalDate(), owlStart)) &&
                                 sleepingSession.getEnd().isAfter(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), OWL_END)));})
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), owlEnd))); })
                 .count();
 
         long countNightLark = sleepingSessions.stream()
-                .filter(sleepingSession -> { return
-                        (sleepingSession.getStart().isBefore(
-                                LocalDateTime.of(sleepingSession.getEnd().minusDays(1).toLocalDate(), LARK_START)) &&
+                .filter(sleepingSession -> {
+                    return (sleepingSession.getStart().isBefore(
+                                LocalDateTime.of(sleepingSession.getEnd().minusDays(1).toLocalDate(), larkStart)) &&
                                 sleepingSession.getEnd().isBefore(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), LARK_END)));})
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), larkEnd))); })
                 .count();
 
         if (countNightOwl > countNightLark) {

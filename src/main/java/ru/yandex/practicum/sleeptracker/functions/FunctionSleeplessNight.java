@@ -10,9 +10,9 @@ import java.util.function.Function;
 
 public class FunctionSleeplessNight implements Function<List<SleepingSession>, Long> {
 
-    private final LocalTime NIGHT_START = LocalTime.of(0,0);
-    private final LocalTime NIGHT_END = LocalTime.of(6,0);
-    private final LocalTime NOON = LocalTime.of(12,0);
+    private final LocalTime nightStart = LocalTime.of(0,0);
+    private final LocalTime nightEnd = LocalTime.of(6,0);
+    private final LocalTime noonTime = LocalTime.of(12,0);
 
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
@@ -24,7 +24,7 @@ public class FunctionSleeplessNight implements Function<List<SleepingSession>, L
         // потенциальной ночью для сна считается следующая ночь,
         // а если до 12 — то предыдущая.
         int nextNight = 0;
-        if (sleepingSessions.getFirst().getStart().toLocalTime().isAfter(NOON)) {
+        if (sleepingSessions.getFirst().getStart().toLocalTime().isAfter(noonTime)) {
             nextNight++;
         }
 
@@ -32,11 +32,11 @@ public class FunctionSleeplessNight implements Function<List<SleepingSession>, L
                 sleepingSessions.getLast().getEnd().toLocalDate().plusDays(1)).getDays();
 
         long countSleepNight = sleepingSessions.stream()
-                .filter(sleepingSession -> { return
-                        (sleepingSession.getStart().isBefore(
-                                LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), NIGHT_END)) &&
+                .filter(sleepingSession -> {
+                    return (sleepingSession.getStart().isBefore(
+                                LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), nightEnd)) &&
                                 sleepingSession.getEnd().isAfter(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(),NIGHT_START)));})
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), nightStart))); })
                 .count();
 
         return countAllNight - countSleepNight;
