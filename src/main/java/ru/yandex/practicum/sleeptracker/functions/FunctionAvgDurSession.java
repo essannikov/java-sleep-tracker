@@ -1,15 +1,15 @@
 package ru.yandex.practicum.sleeptracker.functions;
 
 import ru.yandex.practicum.sleeptracker.SleepingSession;
+import ru.yandex.practicum.sleeptracker.interfaces.FunctionInterface;
 
 import java.util.List;
-import java.util.function.Function;
 
-public class FunctionAvgDurSession implements Function<List<SleepingSession>, Long> {
+public class FunctionAvgDurSession implements FunctionInterface {
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
         if (sleepingSessions == null || sleepingSessions.isEmpty()) {
-            return (long) 0;
+            return 0L;
         }
 
         return (long) sleepingSessions.stream()

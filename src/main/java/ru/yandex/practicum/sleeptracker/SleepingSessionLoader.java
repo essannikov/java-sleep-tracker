@@ -34,12 +34,12 @@ public class SleepingSessionLoader {
         return resultList;
     }
 
-    protected SleepingSession convert(String string) throws SleepingSessionConvertException {
+    protected SleepingSession convert(String input) throws SleepingSessionConvertException {
         SleepingSession session;
 
-        String[] values = string.split(";");
+        String[] values = input.split(";");
         if (values.length != 3) {
-            throw new SleepingSessionConvertException("Ошибка в строке: " + string);
+            throw new SleepingSessionConvertException("Ошибка в строке: " + input);
         }
 
         try {
@@ -50,9 +50,9 @@ public class SleepingSessionLoader {
 
             session = new SleepingSession(start, end, quality);
         } catch (DateTimeParseException errParse) {
-            throw new SleepingSessionConvertException("Ошибка формата даты, в строке: " + string);
+            throw new SleepingSessionConvertException("Ошибка формата даты, в строке: " + input);
         } catch (IllegalArgumentException errArg) {
-            throw new SleepingSessionConvertException("Ошибка значения качества сна, в строке: " + string);
+            throw new SleepingSessionConvertException("Ошибка значения качества сна, в строке: " + input);
         }
 
         return session;

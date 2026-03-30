@@ -1,30 +1,30 @@
 package ru.yandex.practicum.sleeptracker.functions;
 
 import ru.yandex.practicum.sleeptracker.SleepingSession;
+import ru.yandex.practicum.sleeptracker.interfaces.FunctionInterface;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.util.List;
-import java.util.function.Function;
 
-public class FunctionSleeplessNight implements Function<List<SleepingSession>, Long> {
+public class FunctionSleeplessNight implements FunctionInterface {
 
-    private final LocalTime nightStart = LocalTime.of(0,0);
-    private final LocalTime nightEnd = LocalTime.of(6,0);
-    private final LocalTime noonTime = LocalTime.of(12,0);
+    private static final LocalTime NIGHT_START = LocalTime.of(0,0);
+    private static final LocalTime NIGHT_END = LocalTime.of(6,0);
+    private static final LocalTime NOON_TIME = LocalTime.of(12,0);
 
     @Override
     public Long apply(List<SleepingSession> sleepingSessions) {
         if (sleepingSessions == null || sleepingSessions.isEmpty()) {
-            return (long) 0;
+            return 0L;
         }
 
         // Также будем считать, что если первая сессия сна в файле началась после 12 дня,
         // потенциальной ночью для сна считается следующая ночь,
         // а если до 12 — то предыдущая.
         int nextNight = 0;
-        if (sleepingSessions.getFirst().getStart().toLocalTime().isAfter(noonTime)) {
+        if (sleepingSessions.getFirst().getStart().toLocalTime().isAfter(NOON_TIME)) {
             nextNight++;
         }
 
@@ -34,9 +34,9 @@ public class FunctionSleeplessNight implements Function<List<SleepingSession>, L
         long countSleepNight = sleepingSessions.stream()
                 .filter(sleepingSession -> {
                     return (sleepingSession.getStart().isBefore(
-                                LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), nightEnd)) &&
+                                LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), NIGHT_END)) &&
                                 sleepingSession.getEnd().isAfter(
-                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), nightStart))); })
+                                        LocalDateTime.of(sleepingSession.getEnd().toLocalDate(), NIGHT_START))); })
                 .count();
 
         return countAllNight - countSleepNight;

@@ -1,11 +1,11 @@
 package ru.yandex.practicum.sleeptracker;
 
 import ru.yandex.practicum.sleeptracker.functions.*;
+import ru.yandex.practicum.sleeptracker.interfaces.FunctionInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class SleepTrackerApp {
 
@@ -24,7 +24,7 @@ public class SleepTrackerApp {
             return;
         }
 
-        List<Function<List<SleepingSession>, Long>> functionsList = getFunctionList();
+        List<FunctionInterface> functionsList = getFunctionList();
         List<String> resultFunc = functionsList.stream()
                 .map(listLongFunction ->
                         new SleepAnalysisResult(listLongFunction).apply(sleepingSessionList))
@@ -32,8 +32,8 @@ public class SleepTrackerApp {
                 .toList();
     }
 
-    protected static List<Function<List<SleepingSession>, Long>> getFunctionList() {
-        List<Function<List<SleepingSession>, Long>> functionsList = new ArrayList<>();
+    protected static List<FunctionInterface> getFunctionList() {
+        List<FunctionInterface> functionsList = new ArrayList<>();
 
         functionsList.add(new FunctionCountSession());
         functionsList.add(new FunctionMinDurSession());

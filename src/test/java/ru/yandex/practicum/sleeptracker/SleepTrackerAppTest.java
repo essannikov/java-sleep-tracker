@@ -99,6 +99,7 @@ public class SleepTrackerAppTest {
 
     @Test
     public void shouldFunctionSleeplessNightReturn0() {
+        //когда файл (журнал) пустой
         long result = new FunctionSleeplessNight().apply(null);
         assertEquals(0, result);
     }
@@ -111,6 +112,7 @@ public class SleepTrackerAppTest {
 
     @Test
     public void shouldFunctionSleeplessNightReturn2() {
+        //когда первая сессия сна начинается после 0:00 и до 12:00
         List<SleepingSession> tmpList = new ArrayList<>(sleepingSessionList);
         tmpList.add(
                 new SleepingSession(
@@ -124,8 +126,40 @@ public class SleepTrackerAppTest {
     }
 
     @Test
+    public void shouldFunctionSleeplessNightReturn3() {
+        //когда интервал логирования начинается в одном месяце, а заканчивается в другом
+        List<SleepingSession> tmpList = new ArrayList<>(sleepingSessionList);
+        tmpList.add(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 12,31,10,15),
+                        LocalDateTime.of(2025,12,31,11,15),
+                        SleepingQuality.GOOD));
+        tmpList.sort(Comparator.comparing(SleepingSession::getStart));
+
+        long result = new FunctionSleeplessNight().apply(tmpList);
+        assertEquals(3, result);
+    }
+
+    @Test
     public void shouldFunctionUserClassificationReturnDOVE() {
-        long result = new FunctionUserClassification().apply(null);
+        List<SleepingSession> tmpList = new ArrayList<>();
+        tmpList.add(
+                new SleepingSession(
+                        LocalDateTime.of(2026, 1,5,21,15),
+                        LocalDateTime.of(2026,1,6,5,15),
+                        SleepingQuality.NORMAL));
+        tmpList.add(
+                new SleepingSession(
+                        LocalDateTime.of(2026, 1,6,23,15),
+                        LocalDateTime.of(2026,1,7,9,15),
+                        SleepingQuality.NORMAL));
+        tmpList.sort(Comparator.comparing(SleepingSession::getStart));
+
+        long result = new FunctionUserClassification().apply(tmpList);
+        assertEquals(UserClassification.DOVE.getNumber(), result);
+
+        //Check NULL
+        result = new FunctionUserClassification().apply(null);
         assertEquals(UserClassification.DOVE.getNumber(), result);
     }
 

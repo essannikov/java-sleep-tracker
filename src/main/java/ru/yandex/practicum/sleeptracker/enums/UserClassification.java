@@ -12,7 +12,6 @@ public enum UserClassification {
 
     private final int number;
     private final String name;
-    private static final Map<Integer, String> BY_CODE = new HashMap<>();
 
     UserClassification(int number, String name) {
         this.number = number;

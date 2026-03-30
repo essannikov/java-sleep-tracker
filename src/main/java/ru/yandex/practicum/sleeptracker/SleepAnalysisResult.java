@@ -2,14 +2,14 @@ package ru.yandex.practicum.sleeptracker;
 
 import ru.yandex.practicum.sleeptracker.enums.UserClassification;
 import ru.yandex.practicum.sleeptracker.functions.*;
+import ru.yandex.practicum.sleeptracker.interfaces.FunctionInterface;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class SleepAnalysisResult {
-    private final Function<List<SleepingSession>, Long> function;
+    private final FunctionInterface function;
 
-    public SleepAnalysisResult(Function<List<SleepingSession>, Long> function) {
+    public SleepAnalysisResult(FunctionInterface function) {
         this.function = function;
     }
 
